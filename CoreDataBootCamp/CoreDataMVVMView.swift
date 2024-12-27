@@ -34,6 +34,20 @@ import CoreData
         saveData()
     }
     
+    func updateFruit(_ fruit: FruitEntity) {
+        let currentName = fruit.name ?? ""
+        let updatedName = currentName + "!"
+        fruit.name = updatedName
+        saveData()
+    }
+    
+    func deleteFruit(indexSet: IndexSet) {
+        guard let index = indexSet.first else { return }
+        let fruit = savedEntities[index]
+        container.viewContext.delete(fruit)
+        saveData()
+    }
+    
     private func saveData() {
         do {
             try container.viewContext.save()
@@ -47,9 +61,48 @@ import CoreData
 struct CoreDataMVVMView: View {
    
     @State var vm = CoreDataViewModel()
+    @State var textFieldText: String = ""
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            VStack(spacing: 20) {
+                TextField("Enter Fruit Name", text: $textFieldText)
+                    .font(.headline)
+                    .padding(.leading)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 55)
+                    .background(Color.gray.opacity(0.25))
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+                
+                Button {
+                    guard !textFieldText.isEmpty else { return }
+                    vm.addFruit(text: textFieldText)
+                    textFieldText = ""
+                } label: {
+                    Text("Submit")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 55)
+                        .background(Color.pink.opacity(0.75))
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal)
+                
+                List {
+                    ForEach(vm.savedEntities) { fruit in
+                        Text("\(fruit.name ?? "NA")")
+                            .onTapGesture {
+                                vm.updateFruit(fruit)
+                            }
+                    }
+                    .onDelete(perform: vm.deleteFruit)
+                }
+                .listStyle(PlainListStyle())
+            }
+            .navigationTitle("Fruits")
+        }
     }
 }
 
