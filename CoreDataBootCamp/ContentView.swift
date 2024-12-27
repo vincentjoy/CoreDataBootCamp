@@ -43,6 +43,9 @@ struct ContentView: View {
                 List {
                     ForEach(fruits) { fruit in
                         Text(fruit.name ?? "NA")
+                            .onTapGesture {
+                                updateItem(fruit: fruit)
+                            }
                     }
                     .onDelete(perform: deleteItems)
                 }
@@ -58,6 +61,15 @@ struct ContentView: View {
             newFruit.name = textFieldText
             saveToCoredata()
             textFieldText = ""
+        }
+    }
+    
+    private func updateItem(fruit: FruitEntity) {
+        withAnimation {
+            let currentName = fruit.name ?? ""
+            let updatedName = currentName + "!"
+            fruit.name = updatedName
+            saveToCoredata()
         }
     }
 
