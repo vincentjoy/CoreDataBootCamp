@@ -1,9 +1,4 @@
-//
-//  ContentView.swift
-//  CoreDataBootCamp
-//
-//  Created by Vincent Joy on 27/12/24.
-//
+// From the tutorial - https://youtu.be/nalfX8yP0wc?si=jQrFf4YNPLqrOqHn
 
 import SwiftUI
 import CoreData
@@ -25,20 +20,18 @@ struct ContentView: View {
                     } label: {
                         Text(item.timestamp!, formatter: itemFormatter)
                     }
-                    // Test commit
                 }
                 .onDelete(perform: deleteItems)
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
+            .listStyle(PlainListStyle())
+            .navigationTitle("Core Data Boot Camp")
+            .navigationBarItems(
+                leading: EditButton(),
+                trailing:
                     Button(action: addItem) {
                         Label("Add Item", systemImage: "plus")
                     }
-                }
-            }
+                )
             Text("Select an item")
         }
     }
