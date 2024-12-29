@@ -34,10 +34,12 @@ class CoreDataManager {
     @ObservationIgnored let manager = CoreDataManager.instance
     var businesses: [BusinessEntity] = []
     var departments: [DepartmentEntity] = []
+    var employees: [EmployeeEntity] = []
     
     init() {
         getBusinesses()
         getDepartments()
+        getEmployees()
     }
     
     func getBusinesses() {
@@ -58,6 +60,15 @@ class CoreDataManager {
         }
     }
     
+    func getEmployees() {
+        let request: NSFetchRequest<EmployeeEntity> = NSFetchRequest(entityName: "EmployeeEntity")
+        do {
+            employees = try manager.context.fetch(request)
+        } catch {
+            print("Error fetching employees - \(error.localizedDescription)")
+        }
+    }
+    
     func addBusinesses() {
         let newBusiness = BusinessEntity(context: manager.context)
         newBusiness.name = "Apple"
@@ -71,14 +82,26 @@ class CoreDataManager {
         save()
     }
     
+    func addEmployee() {
+        let newEmployee = EmployeeEntity(context: manager.context)
+        newEmployee.name = "John"
+        newEmployee.age = 29
+        newEmployee.dateJoined = Date()
+        newEmployee.department = departments[0]
+        newEmployee.business = businesses[0]
+        save()
+    }
+    
     private func save() {
         businesses.removeAll()
         departments.removeAll()
+        employees.removeAll()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.manager.save()
             self.getBusinesses()
             self.getDepartments()
+            self.getEmployees()
         }
     }
 }
@@ -92,7 +115,7 @@ struct CoreDataRelationshipsBootCamp: View {
             ScrollView {
                 VStack(spacing: 20) {
                     Button {
-                        vm.addBusinesses()
+                        vm.addEmployee()
                     } label: {
                         Text("Perform Action")
                             .foregroundStyle(.white)
@@ -113,6 +136,14 @@ struct CoreDataRelationshipsBootCamp: View {
                         HStack(alignment: .top) {
                             ForEach(vm.departments) { department in
                                 DepartmentView(entity: department)
+                            }
+                        }
+                    }
+                    
+                    ScrollView(.horizontal, showsIndicators: true) {
+                        HStack(alignment: .top) {
+                            ForEach(vm.employees) { employee in
+                                EmployeeView(entity: employee)
                             }
                         }
                     }
@@ -189,6 +220,33 @@ struct DepartmentView: View {
         .padding()
         .frame(maxWidth: 300, alignment: .leading)
         .background(Color.green.opacity(0.5))
+        .cornerRadius(10)
+        .shadow(radius: 10)
+    }
+}
+
+struct EmployeeView: View {
+    
+    let entity: EmployeeEntity
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("Name: \(entity.name ?? "NA")")
+                .bold()
+            Text("Age: \(entity.age)")
+            Text("Date joined: \(entity.dateJoined ?? Date())")
+            
+            Text("Businesses:")
+                .bold()
+            Text(entity.business?.name ?? "NA")
+            
+            Text("Department:")
+                .bold()
+            Text(entity.department?.name ?? "NA")
+        }
+        .padding()
+        .frame(maxWidth: 300, alignment: .leading)
+        .background(Color.blue.opacity(0.5))
         .cornerRadius(10)
         .shadow(radius: 10)
     }
