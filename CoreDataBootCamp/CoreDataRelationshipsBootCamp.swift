@@ -50,7 +50,12 @@ class CoreDataManager {
     func addBusinesses() {
         let newBusiness = BusinessEntity(context: manager.context)
         newBusiness.name = "Apple"
+        save()
+    }
+    
+    private func save() {
         manager.save()
+        getBusinesses()
     }
 }
 
@@ -72,6 +77,13 @@ struct CoreDataRelationshipsBootCamp: View {
                             .background(Color.blue.cornerRadius(10))
                     }
 
+                    ScrollView(.horizontal, showsIndicators: true) {
+                        HStack(alignment: .top) {
+                            ForEach(vm.businesses) { business in
+                                BusinessView(entity: business)
+                            }
+                        }
+                    }
                 }
                 .padding()
             }
@@ -82,4 +94,37 @@ struct CoreDataRelationshipsBootCamp: View {
 
 #Preview {
     CoreDataRelationshipsBootCamp()
+}
+
+struct BusinessView: View {
+    
+    let entity: BusinessEntity
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("Name: \(entity.name ?? "NA")")
+                .bold()
+            
+            if let departments = entity.departments?.allObjects as? [DepartmentEntity] {
+                Text("Departments:")
+                    .bold()
+                ForEach(departments) { department in
+                    Text(department.name ?? "")
+                }
+            }
+            
+            if let employees = entity.employees?.allObjects as? [EmployeeEntity] {
+                Text("Employees:")
+                    .bold()
+                ForEach(employees) { employee in
+                    Text(employee.name ?? "")
+                }
+            }
+        }
+        .padding()
+        .frame(maxWidth: 300, alignment: .leading)
+        .background(Color.gray.opacity(0.5))
+        .cornerRadius(10)
+        .shadow(radius: 10)
+    }
 }
