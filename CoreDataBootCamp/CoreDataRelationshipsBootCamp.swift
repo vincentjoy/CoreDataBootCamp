@@ -19,9 +19,10 @@ class CoreDataManager {
         context = container.viewContext
     }
     
-    private func save() {
+    func save() {
         do {
             try container.viewContext.save()
+            print("Saved successfully!")
         } catch {
             print("Error saving data - \(error.localizedDescription)")
         }
@@ -31,6 +32,26 @@ class CoreDataManager {
 @Observable final class CoreDataRelationshipViewModel {
     
     @ObservationIgnored let manager = CoreDataManager.instance
+    var businesses: [BusinessEntity] = []
+    
+    init() {
+        getBusinesses()
+    }
+    
+    func getBusinesses() {
+        let request: NSFetchRequest<BusinessEntity> = NSFetchRequest(entityName: "BusinessEntity")
+        do {
+            businesses = try manager.context.fetch(request)
+        } catch {
+            print("Error fetching businesses - \(error.localizedDescription)")
+        }
+    }
+    
+    func addBusinesses() {
+        let newBusiness = BusinessEntity(context: manager.context)
+        newBusiness.name = "Apple"
+        manager.save()
+    }
 }
 
 struct CoreDataRelationshipsBootCamp: View {
@@ -38,7 +59,24 @@ struct CoreDataRelationshipsBootCamp: View {
     @State var vm = CoreDataRelationshipViewModel()
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 20) {
+                    Button {
+                        vm.addBusinesses()
+                    } label: {
+                        Text("Add Business")
+                            .foregroundStyle(.white)
+                            .frame(height: 55)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue.cornerRadius(10))
+                    }
+
+                }
+                .padding()
+            }
+            .navigationTitle("Relationships")
+        }
     }
 }
 

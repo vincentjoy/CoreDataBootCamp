@@ -15,7 +15,9 @@ struct CoreDataBootCampApp: App {
         WindowGroup {
 //            ContentView()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            CoreDataMVVMView()
+//            CoreDataMVVMView()
+            
+            CoreDataRelationshipsBootCamp()
         }
     }
 }
