@@ -44,6 +44,10 @@ class CoreDataManager {
     
     func getBusinesses() {
         let request: NSFetchRequest<BusinessEntity> = NSFetchRequest(entityName: "BusinessEntity")
+        
+        let sort = NSSortDescriptor(keyPath: \BusinessEntity.name, ascending: true)
+        request.sortDescriptors = [sort]
+        
         do {
             businesses = try manager.context.fetch(request)
         } catch {
@@ -67,6 +71,12 @@ class CoreDataManager {
         } catch {
             print("Error fetching employees - \(error.localizedDescription)")
         }
+    }
+    
+    func updateBusiness() {
+        let existingBusiness = businesses[2]
+        existingBusiness.addToDepartments(departments[1])
+        save()
     }
     
     func addBusinesses() {
@@ -115,7 +125,7 @@ struct CoreDataRelationshipsBootCamp: View {
             ScrollView {
                 VStack(spacing: 20) {
                     Button {
-                        vm.addEmployee()
+                        vm.updateBusiness()
                     } label: {
                         Text("Perform Action")
                             .foregroundStyle(.white)
