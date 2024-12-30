@@ -48,8 +48,8 @@ class CoreDataManager {
         let sort = NSSortDescriptor(keyPath: \BusinessEntity.name, ascending: true)
         request.sortDescriptors = [sort]
         
-        let filter = NSPredicate(format: "name == %@", "Apple")
-        request.predicate = filter
+//        let filter = NSPredicate(format: "name == %@", "Apple")
+//        request.predicate = filter
         
         do {
             businesses = try manager.context.fetch(request)
@@ -118,6 +118,12 @@ class CoreDataManager {
         save()
     }
     
+    func deleteDepartment() {
+        let department = departments[2]
+        manager.context.delete(department)
+        save()
+    }
+    
     private func save() {
         businesses.removeAll()
         departments.removeAll()
@@ -141,7 +147,7 @@ struct CoreDataRelationshipsBootCamp: View {
             ScrollView {
                 VStack(spacing: 20) {
                     Button {
-                        vm.updateBusiness()
+                        vm.deleteDepartment()
                     } label: {
                         Text("Perform Action")
                             .foregroundStyle(.white)
