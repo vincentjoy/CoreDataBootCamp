@@ -48,6 +48,9 @@ class CoreDataManager {
         let sort = NSSortDescriptor(keyPath: \BusinessEntity.name, ascending: true)
         request.sortDescriptors = [sort]
         
+        let filter = NSPredicate(format: "name == %@", "Apple")
+        request.predicate = filter
+        
         do {
             businesses = try manager.context.fetch(request)
         } catch {
@@ -66,6 +69,19 @@ class CoreDataManager {
     
     func getEmployees() {
         let request: NSFetchRequest<EmployeeEntity> = NSFetchRequest(entityName: "EmployeeEntity")
+        do {
+            employees = try manager.context.fetch(request)
+        } catch {
+            print("Error fetching employees - \(error.localizedDescription)")
+        }
+    }
+    
+    func getEmployees(forBusiness business: BusinessEntity) {
+        let request: NSFetchRequest<EmployeeEntity> = NSFetchRequest(entityName: "EmployeeEntity")
+        
+        let filter = NSPredicate(format: "business == %@", business)
+        request.predicate = filter
+        
         do {
             employees = try manager.context.fetch(request)
         } catch {
