@@ -17,7 +17,7 @@ struct CoreDataBootCampApp: App {
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
 //            CoreDataMVVMView()
             
-            ScrollViewReaderBootCamp()
+            FileManagerBootCamp()
         }
     }
 }

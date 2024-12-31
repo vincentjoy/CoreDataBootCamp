@@ -2,10 +2,36 @@
 
 import SwiftUI
 
+class LocalFileManager {
+    
+    static let instance = LocalFileManager()
+    
+    func saveImage(_ image: UIImage, to fileName: String) {
+        guard let data = image.pngData() else {
+            print("Error getting the data")
+            return
+        }
+        
+        let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
+        guard let path = directory?.appendingPathComponent("\(fileName)", conformingTo: .png) else {
+            print("Error getting the path")
+            return
+        }
+        
+        do {
+            try data.write(to: path)
+            print("Successfully saved the file")
+        } catch {
+            print("Error saving data - \(error.localizedDescription)")
+        }
+    }
+}
+
 @Observable class FileManagerViewModel {
     
     var image: UIImage?
-    private var imageName: String = "lalo-salamanca"
+    @ObservationIgnored  private let manager = LocalFileManager.instance
+    @ObservationIgnored private var imageName: String = "lalo-salamanca"
     
     init() {
         getImageFromAssetsFolder()
@@ -13,6 +39,11 @@ import SwiftUI
     
     private func getImageFromAssetsFolder() {
         image = UIImage(named: imageName)
+    }
+    
+    func saveImage() {
+        guard let image else { return }
+        manager.saveImage(image, to: imageName)
     }
 }
 
@@ -32,7 +63,7 @@ struct FileManagerBootCamp: View {
                         .cornerRadius(10)
                 }
                 Button {
-                    
+                    vm.saveImage()
                 } label: {
                     Text("Save to FM")
                         .foregroundStyle(Color.white)
