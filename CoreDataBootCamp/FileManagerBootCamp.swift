@@ -7,14 +7,10 @@ class LocalFileManager {
     static let instance = LocalFileManager()
     
     func saveImage(_ image: UIImage, to fileName: String) {
-        guard let data = image.pngData() else {
+        guard let data = image.pngData(),
+              let path = getPath(for: fileName)
+        else {
             print("Error getting the data")
-            return
-        }
-        
-        let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
-        guard let path = directory?.appendingPathComponent("\(fileName)", conformingTo: .png) else {
-            print("Error getting the path")
             return
         }
         
@@ -25,6 +21,26 @@ class LocalFileManager {
             print("Error saving data - \(error.localizedDescription)")
         }
     }
+    
+    func getImage(name: String) -> UIImage? {
+        guard let path = getPath(for: name)?.path,
+              FileManager.default.fileExists(atPath: path)
+        else {
+            print("Error getting the data")
+            return nil
+        }
+        
+        return UIImage(contentsOfFile: path)
+    }
+    
+    private func getPath(for fileName: String) -> URL? {
+        let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
+        guard let path = directory?.appendingPathComponent("\(fileName)", conformingTo: .png) else {
+            print("Error getting the path")
+            return nil
+        }
+        return path
+    }
 }
 
 @Observable class FileManagerViewModel {
@@ -34,11 +50,16 @@ class LocalFileManager {
     @ObservationIgnored private var imageName: String = "lalo-salamanca"
     
     init() {
-        getImageFromAssetsFolder()
+//        getImageFromAssetsFolder()
+        getImageFromFileManager()
     }
     
     private func getImageFromAssetsFolder() {
         image = UIImage(named: imageName)
+    }
+    
+    private func getImageFromFileManager() {
+        image = manager.getImage(name: imageName)
     }
     
     func saveImage() {
