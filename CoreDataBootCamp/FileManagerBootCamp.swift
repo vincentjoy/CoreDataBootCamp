@@ -33,6 +33,22 @@ class LocalFileManager {
         return UIImage(contentsOfFile: path)
     }
     
+    func deleteImage(name: String) {
+        guard let path = getPath(for: name),
+              FileManager.default.fileExists(atPath: path.path)
+        else {
+            print("Error getting the data")
+            return
+        }
+        
+        do {
+            try FileManager.default.removeItem(at: path)
+            print("Succesfullly deleted")
+        } catch {
+            print("Error deleting the file - \(error.localizedDescription)")
+        }
+    }
+    
     private func getPath(for fileName: String) -> URL? {
         let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first
         guard let path = directory?.appendingPathComponent("\(fileName)", conformingTo: .png) else {
@@ -66,6 +82,10 @@ class LocalFileManager {
         guard let image else { return }
         manager.saveImage(image, to: imageName)
     }
+    
+    func deleteImage() {
+        manager.deleteImage(name: imageName)
+    }
 }
 
 struct FileManagerBootCamp: View {
@@ -83,18 +103,33 @@ struct FileManagerBootCamp: View {
                         .clipped()
                         .cornerRadius(10)
                 }
-                Button {
-                    vm.saveImage()
-                } label: {
-                    Text("Save to FM")
-                        .foregroundStyle(Color.white)
-                        .font(.headline)
-                        .padding()
-                        .padding(.horizontal)
-                        .background(Color.blue)
-                        .cornerRadius(10)
+                
+                HStack {
+                    Button {
+                        vm.saveImage()
+                    } label: {
+                        Text("Save to FM")
+                            .foregroundStyle(Color.white)
+                            .font(.headline)
+                            .padding()
+                            .padding(.horizontal)
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                    
+                    Button {
+                        vm.deleteImage()
+                    } label: {
+                        Text("Delete from FM")
+                            .foregroundStyle(Color.white)
+                            .font(.headline)
+                            .padding()
+                            .padding(.horizontal)
+                            .background(Color.red)
+                            .cornerRadius(10)
+                    }
                 }
-
+                
                 Spacer()
             }
             .navigationTitle("File Manager")
