@@ -27,4 +27,31 @@ final class PhotoModelFileManager {
         return folderPath
     }
     
+    private func getImagePath(key: String) -> URL? {
+        guard let folderPath = getFolderPath() else {
+            return nil
+        }
+        let imagePath = folderPath.appendingPathComponent(key + ".png")
+        return imagePath
+    }
+    
+    func add(key: String, value: UIImage) {
+        guard let data = value.pngData(), let url = getImagePath(key: key) else {
+            return
+        }
+        
+        do {
+            try data.write(to: url)
+        } catch {
+            print("Error saving to file manager - \(error.localizedDescription)")
+        }
+    }
+    
+    func get(key: String) -> UIImage? {
+        guard let url = getImagePath(key: key), FileManager.default.fileExists(atPath: url.path) else {
+            return nil
+        }
+        
+        return UIImage(contentsOfFile: url.path)
+    }
 }
