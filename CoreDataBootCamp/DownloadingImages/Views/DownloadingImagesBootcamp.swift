@@ -10,7 +10,7 @@ struct DownloadingImagesBootcamp: View {
         NavigationView {
             List {
                 ForEach(vm.dataArray) { model in
-                    Text(model.title)
+                    DownloadingImagesRow(model: model)
                 }
             }
             .navigationTitle("Downloading Images")
