@@ -7,14 +7,25 @@ import Combine
     var image: UIImage?
     var isLoading: Bool = false
     @ObservationIgnored let urlString: String
+    @ObservationIgnored let imageKey: String
     var canellables: Set<AnyCancellable> = []
+    let manager = PhotoModelCacheManager.shared
     
-    init(urlString: String) {
+    init(urlString: String, key :String) {
         self.urlString = urlString
+        self.imageKey = key
         downloadImage()
     }
     
-    func downloadImage() {
+    func getImage() {
+        if let savedImage = manager.get(key: imageKey) {
+            image = savedImage
+        } else {
+            downloadImage()
+        }
+    }
+    
+    private func downloadImage() {
         guard let url = URL(string: urlString) else {
             isLoading = false
             return
@@ -28,7 +39,9 @@ import Combine
             .sink { [weak self] _ in
                 self?.isLoading = false
             } receiveValue: { [weak self] returnedImage in
-                self?.image = returnedImage
+                guard let self, let returnedImage else { return }
+                self.image = returnedImage
+                self.manager.add(key: self.imageKey, value: returnedImage)
             }
             .store(in: &canellables)
     }
