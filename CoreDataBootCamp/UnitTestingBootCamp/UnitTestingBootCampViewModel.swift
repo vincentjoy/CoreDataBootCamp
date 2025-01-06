@@ -10,4 +10,9 @@ import SwiftUI
     init(isPremium: Bool) {
         self.isPremium = isPremium
     }
+    
+    func addItem(item: String) {
+        guard !item.isEmpty else { return }
+        self.dataArray.append(item)
+    }
 }

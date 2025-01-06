@@ -77,4 +77,28 @@ final class UnitTestingBootCampViewModel_Tests: XCTestCase {
         XCTAssertTrue(vm.dataArray.isEmpty)
         XCTAssertEqual(vm.dataArray.count, 0)
     }
+    
+    func test_UnitTestingBootCampViewModel_dataArray_shouldAddItems() throws {
+        // Given
+        let vm = UnitTestingBootCampViewModel(isPremium: Bool.random())
+        
+        // When
+        vm.addItem(item: "hello")
+        
+        // Then
+        XCTAssertFalse(vm.dataArray.isEmpty)
+        XCTAssertNotEqual(vm.dataArray.count, 0)
+        XCTAssertGreaterThan(vm.dataArray.count, 0)
+    }
+    
+    func test_UnitTestingBootCampViewModel_dataArray_shouldNotAddBlankItem() throws {
+        // Given
+        let vm = UnitTestingBootCampViewModel(isPremium: Bool.random())
+        
+        // When
+        vm.addItem(item: "")
+        
+        // Then
+        XCTAssertTrue(vm.dataArray.isEmpty)
+    }
 }
