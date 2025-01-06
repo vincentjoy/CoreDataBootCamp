@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		BFE2671F2D2C1A2C00B2A3DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BF17D6262D1E709A00ED108B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BF17D62D2D1E709A00ED108B;
+			remoteInfo = CoreDataBootCamp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		BF17D62E2D1E709A00ED108B /* CoreDataBootCamp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreDataBootCamp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFE2671B2D2C1A2C00B2A3DC /* CoreDataBootCampTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataBootCampTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +27,22 @@
 			path = CoreDataBootCamp;
 			sourceTree = "<group>";
 		};
+		BFE2671C2D2C1A2C00B2A3DC /* CoreDataBootCampTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CoreDataBootCampTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BF17D62B2D1E709A00ED108B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE267182D2C1A2C00B2A3DC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				BF17D6302D1E709A00ED108B /* CoreDataBootCamp */,
+				BFE2671C2D2C1A2C00B2A3DC /* CoreDataBootCampTests */,
 				BF17D62F2D1E709A00ED108B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				BF17D62E2D1E709A00ED108B /* CoreDataBootCamp.app */,
+				BFE2671B2D2C1A2C00B2A3DC /* CoreDataBootCampTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +95,29 @@
 			productReference = BF17D62E2D1E709A00ED108B /* CoreDataBootCamp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BFE2671A2D2C1A2C00B2A3DC /* CoreDataBootCampTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFE267212D2C1A2C00B2A3DC /* Build configuration list for PBXNativeTarget "CoreDataBootCampTests" */;
+			buildPhases = (
+				BFE267172D2C1A2C00B2A3DC /* Sources */,
+				BFE267182D2C1A2C00B2A3DC /* Frameworks */,
+				BFE267192D2C1A2C00B2A3DC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BFE267202D2C1A2C00B2A3DC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				BFE2671C2D2C1A2C00B2A3DC /* CoreDataBootCampTests */,
+			);
+			name = CoreDataBootCampTests;
+			packageProductDependencies = (
+			);
+			productName = CoreDataBootCampTests;
+			productReference = BFE2671B2D2C1A2C00B2A3DC /* CoreDataBootCampTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +130,10 @@
 				TargetAttributes = {
 					BF17D62D2D1E709A00ED108B = {
 						CreatedOnToolsVersion = 16.0;
+					};
+					BFE2671A2D2C1A2C00B2A3DC = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = BF17D62D2D1E709A00ED108B;
 					};
 				};
 			};
@@ -100,12 +152,20 @@
 			projectRoot = "";
 			targets = (
 				BF17D62D2D1E709A00ED108B /* CoreDataBootCamp */,
+				BFE2671A2D2C1A2C00B2A3DC /* CoreDataBootCampTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BF17D62C2D1E709A00ED108B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFE267192D2C1A2C00B2A3DC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +182,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BFE267172D2C1A2C00B2A3DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BFE267202D2C1A2C00B2A3DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BF17D62D2D1E709A00ED108B /* CoreDataBootCamp */;
+			targetProxy = BFE2671F2D2C1A2C00B2A3DC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		BF17D63F2D1E709B00ED108B /* Debug */ = {
@@ -302,6 +377,42 @@
 			};
 			name = Release;
 		};
+		BFE267222D2C1A2C00B2A3DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BMZMVWGL7D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vincent.CoreDataBootCampTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoreDataBootCamp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CoreDataBootCamp";
+			};
+			name = Debug;
+		};
+		BFE267232D2C1A2C00B2A3DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BMZMVWGL7D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vincent.CoreDataBootCampTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoreDataBootCamp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CoreDataBootCamp";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -319,6 +430,15 @@
 			buildConfigurations = (
 				BF17D6422D1E709B00ED108B /* Debug */,
 				BF17D6432D1E709B00ED108B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFE267212D2C1A2C00B2A3DC /* Build configuration list for PBXNativeTarget "CoreDataBootCampTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFE267222D2C1A2C00B2A3DC /* Debug */,
+				BFE267232D2C1A2C00B2A3DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
