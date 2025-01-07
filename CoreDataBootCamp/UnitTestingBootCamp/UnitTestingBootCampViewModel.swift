@@ -1,6 +1,40 @@
 
 import Foundation
 import SwiftUI
+import Combine
+
+protocol  NewDataServiceProtocol {
+    func downloadItemsWithEscaping(completion: @escaping (([String]) -> Void))
+    func downloadwithCombine() -> AnyPublisher<[String], Error>
+}
+
+class NewMockDataService: NewDataServiceProtocol {
+    
+    let items: [String]
+    
+    init(items: [String]?) {
+        self.items = items ?? [
+            "ONE", "TWO", "THREE"
+        ]
+    }
+    
+    func downloadItemsWithEscaping(completion: @escaping (([String]) -> Void)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            completion(self.items)
+        }
+    }
+    
+    func downloadwithCombine() -> AnyPublisher<[String], Error> {
+        Just(items)
+            .tryMap({ publishedItems in
+                guard !publishedItems.isEmpty else {
+                    throw URLError(.badServerResponse)
+                }
+                return publishedItems
+            })
+            .eraseToAnyPublisher()
+    }
+}
 
 @Observable final class UnitTestingBootCampViewModel {
     
@@ -8,8 +42,11 @@ import SwiftUI
     var dataArray: [String] = []
     var selectedItem: String?
     
-    init(isPremium: Bool) {
+    let dataService: NewDataServiceProtocol
+    
+    init(isPremium: Bool, dataService: NewDataServiceProtocol) {
         self.isPremium = isPremium
+        self.dataService = dataService
     }
     
     func addItem(item: String) {
@@ -44,5 +81,11 @@ import SwiftUI
     enum DataError: LocalizedError {
         case noData
         case itemNotFound
+    }
+    
+    func downloadWithEscaping() {
+        dataService.downloadItemsWithEscaping { returnedItems in
+            self.dataArray = returnedItems
+        }
     }
 }
