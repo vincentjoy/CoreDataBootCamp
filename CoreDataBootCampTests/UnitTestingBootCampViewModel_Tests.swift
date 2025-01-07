@@ -83,10 +83,14 @@ final class UnitTestingBootCampViewModel_Tests: XCTestCase {
         let vm = UnitTestingBootCampViewModel(isPremium: Bool.random())
         
         // When
-        vm.addItem(item: "hello")
+        let loopCount: Int = Int.random(in: 1...100)
+        for _ in 0..<loopCount {
+            vm.addItem(item: UUID().uuidString)
+        }
         
         // Then
         XCTAssertFalse(vm.dataArray.isEmpty)
+        XCTAssertEqual(vm.dataArray.count, loopCount)
         XCTAssertNotEqual(vm.dataArray.count, 0)
         XCTAssertGreaterThan(vm.dataArray.count, 0)
     }
@@ -100,5 +104,66 @@ final class UnitTestingBootCampViewModel_Tests: XCTestCase {
         
         // Then
         XCTAssertTrue(vm.dataArray.isEmpty)
+    }
+    
+    func test_UnitTestingBootCampViewModel_selectedItem_shouldStartAsNil() throws {
+        // Given
+        
+        // When
+        let vm = UnitTestingBootCampViewModel(isPremium: Bool.random())
+
+        // Then
+        XCTAssertNil(vm.selectedItem)
+    }
+    
+    func test_UnitTestingBootCampViewModel_selectedItem_shouldBeNilWhenSelectingInvalidItem() throws {
+        // Given
+        let vm = UnitTestingBootCampViewModel(isPremium: Bool.random())
+
+        // When
+        let newItem = UUID().uuidString
+        vm.addItem(item: newItem)
+        vm.selectItem(item: newItem)
+        
+        vm.selectItem(item: UUID().uuidString)
+        
+        // Then
+        XCTAssertNil(vm.selectedItem)
+    }
+    
+    func test_UnitTestingBootCampViewModel_selectedItem_shouldBeSelected() throws {
+        // Given
+        let vm = UnitTestingBootCampViewModel(isPremium: Bool.random())
+
+        // When
+        let newItem = UUID().uuidString
+        vm.addItem(item: newItem)
+        vm.selectItem(item: newItem)
+        
+        // Then
+        XCTAssertNotNil(vm.selectedItem)
+        XCTAssertEqual(vm.selectedItem, newItem)
+    }
+    
+    func test_UnitTestingBootCampViewModel_selectedItem_shouldBeSelected_stress() throws {
+        // Given
+        let vm = UnitTestingBootCampViewModel(isPremium: Bool.random())
+
+        // When
+        let loopCount: Int = Int.random(in: 1..<100)
+        var itemsArray: [String] = []
+        
+        for _ in 0..<loopCount {
+            let newItem = UUID().uuidString
+            vm.addItem(item: newItem)
+            itemsArray.append(newItem)
+        }
+        
+        let randomItem = itemsArray.randomElement() ?? ""
+        vm.selectItem(item: randomItem)
+        
+        // Then
+        XCTAssertNotNil(vm.selectedItem)
+        XCTAssertEqual(vm.selectedItem, randomItem)
     }
 }
