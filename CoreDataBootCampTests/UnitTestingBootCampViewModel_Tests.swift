@@ -12,13 +12,17 @@ import XCTest
 @testable import CoreDataBootCamp
 
 final class UnitTestingBootCampViewModel_Tests: XCTestCase {
+    
+    var viewModel: UnitTestingBootCampViewModel?
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        viewModel = UnitTestingBootCampViewModel(isPremium: Bool.random())
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        viewModel = nil
     }
 
     func test_UnitTestingBootCampViewModel_isPremium_isTrue() {
@@ -72,6 +76,20 @@ final class UnitTestingBootCampViewModel_Tests: XCTestCase {
         
         // When
         let vm = UnitTestingBootCampViewModel(isPremium: Bool.random())
+        
+        // Then
+        XCTAssertTrue(vm.dataArray.isEmpty)
+        XCTAssertEqual(vm.dataArray.count, 0)
+    }
+    
+    func test_UnitTestingBootCampViewModel_dataArray_shouldBeEmpty2() {
+        // Given
+        guard let vm = viewModel else {
+            XCTFail()
+            return
+        }
+        
+        // When
         
         // Then
         XCTAssertTrue(vm.dataArray.isEmpty)
