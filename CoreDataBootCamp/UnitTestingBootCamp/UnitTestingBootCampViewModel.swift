@@ -26,4 +26,23 @@ import SwiftUI
             selectedItem = nil
         }
     }
+    
+    func saveItem(item: String) throws {
+        guard !item.isEmpty else {
+            throw DataError.noData
+        }
+        
+        if let x = dataArray.first(where: {
+            $0 == item
+        }) {
+            print("Save item \(x) here")
+        } else {
+            throw DataError.itemNotFound
+        }
+    }
+    
+    enum DataError: LocalizedError {
+        case noData
+        case itemNotFound
+    }
 }
