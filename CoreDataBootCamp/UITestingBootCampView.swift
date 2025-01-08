@@ -95,6 +95,7 @@ struct SignedInView: View {
                         .background(Color.red)
                         .cornerRadius(10)
                 }
+                .accessibilityIdentifier("WelcomeAlertButton")
                 .alert(isPresented: $showAlert) {
                     return Alert(title: Text("Welcome to the app!"))
                 }
@@ -111,6 +112,7 @@ struct SignedInView: View {
                             .cornerRadius(10)
                     }
                 )
+                .accessibilityIdentifier("NavigationLinkToDestination")
             }
             .padding()
             .navigationTitle("Welcome")

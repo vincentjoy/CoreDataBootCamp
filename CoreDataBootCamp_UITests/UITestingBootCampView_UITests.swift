@@ -39,7 +39,7 @@ final class UITestingBootCampView_UITests: XCTestCase {
         }
     }
     
-    func testUITestingBootCampView_signupButton_shouldNotSignIn() {
+    func test_UITestingBootCampView_signupButton_shouldNotSignIn() {
         app.textFields["SignupTextField"].tap()
         app/*@START_MENU_TOKEN@*/.buttons["Return"]/*[[".keyboards",".otherElements[\"UIKeyboardLayoutStar Preview\"]",".buttons[\"return\"]",".buttons[\"Return\"]"],[[[-1,3],[-1,2],[-1,1,2],[-1,0,1]],[[-1,3],[-1,2],[-1,1,2]],[[-1,3],[-1,2]]],[0]]@END_MENU_TOKEN@*/.tap()
         app.buttons["SignupButton"].tap()
@@ -49,7 +49,7 @@ final class UITestingBootCampView_UITests: XCTestCase {
         XCTAssertFalse(navigationBar.exists)
     }
     
-    func testUITestingBootCampView_signupButton_shouldSignIn() {
+    func test_UITestingBootCampView_signupButton_shouldSignIn() {
         
         app.textFields["SignupTextField"].tap()
         
@@ -66,5 +66,37 @@ final class UITestingBootCampView_UITests: XCTestCase {
         let navigationBar = app.navigationBars["Welcome"]
         
         XCTAssertTrue(navigationBar.exists)
+    }
+    
+    func test_SignedInView_showAlertButton_shouldShowAlert() {
+        let app = XCUIApplication()
+        let signuptextfieldTextField = app/*@START_MENU_TOKEN@*/.textFields["SignupTextField"]/*[[".textFields[\"Add your name..\"]",".textFields[\"SignupTextField\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        signuptextfieldTextField.tap()
+        signuptextfieldTextField.tap()
+        app/*@START_MENU_TOKEN@*/.buttons["SignupButton"]/*[[".buttons[\"Signup\"]",".buttons[\"SignupButton\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["WelcomeAlertButton"].tap()
+        
+        let alert = app.alerts.firstMatch
+        XCTAssertTrue(alert.exists)
+        
+        let okButton = alert.buttons["OK"]
+        let exists = okButton.waitForExistence(timeout: 5)
+        XCTAssertTrue(exists)
+    }
+    
+    func test_SignedInView_showAlertButton_shouldShowAndDismissAlert() {
+        
+        let app = XCUIApplication()
+        let signuptextfieldTextField = app/*@START_MENU_TOKEN@*/.textFields["SignupTextField"]/*[[".textFields[\"Add your name..\"]",".textFields[\"SignupTextField\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        signuptextfieldTextField.tap()
+        signuptextfieldTextField.tap()
+        app/*@START_MENU_TOKEN@*/.buttons["SignupButton"]/*[[".buttons[\"Signup\"]",".buttons[\"SignupButton\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["WelcomeAlertButton"].tap()
+        
+        let alert = app.alerts["Welcome to the app!"]
+        XCTAssertTrue(alert.exists)
+        
+        alert.scrollViews.otherElements.buttons["OK"].tap()
+        XCTAssertFalse(alert.exists)
     }
 }
