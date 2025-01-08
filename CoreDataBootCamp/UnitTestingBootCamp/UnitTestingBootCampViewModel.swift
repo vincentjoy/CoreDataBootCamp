@@ -44,7 +44,7 @@ class NewMockDataService: NewDataServiceProtocol {
     
     let dataService: NewDataServiceProtocol
     
-    init(isPremium: Bool, dataService: NewDataServiceProtocol) {
+    init(isPremium: Bool, dataService: NewDataServiceProtocol = NewMockDataService(items: nil)) {
         self.isPremium = isPremium
         self.dataService = dataService
     }
